@@ -24,6 +24,19 @@ def iiii():
 @app.route("/")
 def main():
     items = []
+    items.append("""<style>
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+.video-container video {
+  width: auto;
+  max-width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+</style>""")
     for index, video_path in enumerate(video_paths):
         ext = video_path.suffix.lower()
         if ext == ".mp4":
@@ -38,10 +51,10 @@ def main():
             mime_type = "video/mp4"
         items.append(
             "<br></br>"
-            f"<video controls width='640' height='360'><source src='/video/{index}' type='{mime_type}'></video></div>"
+            f"""<div class="video-container"><video controls width='640' height='360'><source src='/video/{index}' type='{mime_type}'></video></div>"""
         )
     if not items:
-        items.append("<p>No videos found.</p>")
+        items.append("<p>no videos found lol</p>")
     return "<!doctype html><html><body>" + "".join(items) + "</body></html>"
 @app.route("/video/<int:index>")
 def stream_video(index):
